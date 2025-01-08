@@ -93,8 +93,9 @@ app.get("/patient", async (req, res) => {
 });
 //Add Patients
 app.post("/add-patient", async (req, res) => {
-    const { name, email, cont_number, dob, gender, age, des } = req.body;
+    const { doc_name, name, email, cont_number, dob, gender, age, des } = req.body;
     const data = {
+        doc_name:doc_name,
         name: name,
         email: email,
         cont_number: cont_number,
