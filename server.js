@@ -52,7 +52,7 @@ app.post("/register", async (req, res) => {
                     res.json(data).status(200);
                 })
                 .catch((err) => {
-                    res.json(err);
+                    res.json(err).status(404);
                 })
         }
     } catch (err) {
@@ -68,11 +68,11 @@ app.post("/login", async (req, res) => {
                 if (data[0].password === password) {
                     res.json(data).status(200);
                 } else {
-                    res.json("Use Same Password");
+                    res.json("Use Same Password").status(404);
                 }
             })
             .catch((err) => {
-                res.json(err);
+                res.json(err).status(404);
             })
     } catch (err) {
         console.log(err);
@@ -85,7 +85,7 @@ app.get("/patient", async (req, res) => {
         await patientSchemaModel.find().then((data) => {
             res.json(data).status(200);
         }).catch((err) => {
-            res.json("No Patient Found Due To:-", err);
+            res.json("No Patient Found Due To:-", err).status(404);
         })
     } catch (err) {
         console.log(err);
@@ -115,7 +115,7 @@ app.post("/add-patient", async (req, res) => {
                     res.json(data).status(200);
                 })
                 .catch((err) => {
-                    res.json("Cannot add patient due to :- ", err);
+                    res.json("Cannot add patient due to :- ", err).status(404);
                 })
         }
     } catch (err) {
@@ -134,7 +134,7 @@ app.put("/edit-patient-details", async (req, res) => {
         ).then((data) => {
             res.json(data).status(200);
         }).catch((error) => {
-            res.json("Cannot edit the patient details due to:-", error);
+            res.json("Cannot edit the patient details due to:-", error).status(404);
         })
     } catch (err) {
         console.log(err);
@@ -147,7 +147,7 @@ app.delete("/remove-patient", async (req, res) => {
         await patientSchemaModel.findOneAndDelete({ email: email }).then((data) => {
             res.json(data).status(200);
         }).catch((error) => {
-            res.json("Cannot remove the patient due to:-", error);
+            res.json("Cannot remove the patient due to:-", error).status(404);
         })
     } catch (error) {
         console.log(error);
