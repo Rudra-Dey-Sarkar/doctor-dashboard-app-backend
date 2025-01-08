@@ -85,8 +85,8 @@ app.get("/patient", async (req, res) => {
         await patientSchemaModel.find().then((data) => {
             res.json(data);
         }).catch((err) => {
-                res.json("No Patient Found Due To:-",err);
-            })
+            res.json("No Patient Found Due To:-", err);
+        })
     } catch (err) {
         console.log(err);
     }
@@ -95,33 +95,63 @@ app.get("/patient", async (req, res) => {
 app.post("/add-patient", async (req, res) => {
     const { name, email, cont_number, dob, gender, age, des } = req.body;
     const data = {
-        name:name,
-        email:email,
-        cont_number:cont_number,
-        dob:dob,
-        gender:gender,
-        age:age,
-        des:des,
+        name: name,
+        email: email,
+        cont_number: cont_number,
+        dob: dob,
+        gender: gender,
+        age: age,
+        des: des,
     }
 
     try {
-        const response = await userSchemaModel.find({ email: email });
+        const response = await patientSchemaModel.find({ email: email });
         if (response?.length > 0) {
             res.json("Patient Already Exist");
         } else {
-            await userSchemaModel.insertMany([data])
+            await patientSchemaModel.insertMany([data])
                 .then((data) => {
                     res.json(data);
                 })
                 .catch((err) => {
-                    res.json(err);
+                    res.json("Cannot add patient due to :- ", err);
                 })
         }
     } catch (err) {
         console.log(err);
     }
 });
+//Edit Patients Details
+app.put("/edit-patient-details", async (req, res) => {
+    const { email, ...updateFields } = req.body;
 
+    try {
+        await patientSchemaModel.findOneAndUpdate(
+            { email: email },
+            { $set: updateFields },
+            { new: true }
+        ).then((data) => {
+            res.json(data);
+        }).catch((error) => {
+            res.json("Cannot edit the patient details due to:-", error);
+        })
+    } catch (err) {
+        console.log(err);
+    }
+});
+//Remove Patient
+app.delete("/remove-patient", async (req, res) => {
+    const {email} = req.body;
+    try {
+        await patientSchemaModel.findOneAndDelete({ email: email }).then((data) => {
+            res.json(data);
+        }).catch((error) => {
+            res.json("Cannot remove the patient due to:-", error);
+        })
+    } catch (error) {
+        console.log(error);
+    }
+})
 
 app.listen(5000, () => {
     console.log("App Listening in the port", port);
