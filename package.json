@@ -1,0 +1,19 @@
+{
+  "name": "assessment",
+  "version": "1.0.0",
+  "description": "doctor dashboard app backend",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Rudra Dey Sarkar",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "mongodb": "^6.12.0",
+    "mongoose": "^8.9.3",
+    "nodemon": "^3.1.9"
+  }
+}
+
