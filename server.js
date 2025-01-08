@@ -49,10 +49,10 @@ app.post("/register", async (req, res) => {
         } else {
             await userSchemaModel.insertMany([data])
                 .then((data) => {
-                    res.json(data).status(200);
+                    res.json(data);
                 })
                 .catch((err) => {
-                    res.json(err).status(404);
+                    res.json(err);
                 })
         }
     } catch (err) {
@@ -66,13 +66,13 @@ app.post("/login", async (req, res) => {
         await userSchemaModel.find({ email: email })
             .then((data) => {
                 if (data[0].password === password) {
-                    res.json(data).status(200);
+                    res.json(data);
                 } else {
-                    res.json("Use Same Password").status(404);
+                    res.json("Use Same Password");
                 }
             })
             .catch((err) => {
-                res.json(err).status(404);
+                res.json(err);
             })
     } catch (err) {
         console.log(err);
@@ -83,9 +83,9 @@ app.post("/login", async (req, res) => {
 app.get("/patient", async (req, res) => {
     try {
         await patientSchemaModel.find().then((data) => {
-            res.json(data).status(200);
+            res.json(data);
         }).catch((err) => {
-            res.json("No Patient Found Due To:-", err).status(404);
+            res.json("No Patient Found Due To:-", err);
         })
     } catch (err) {
         console.log(err);
@@ -112,10 +112,10 @@ app.post("/add-patient", async (req, res) => {
         } else {
             await patientSchemaModel.insertMany([data])
                 .then((data) => {
-                    res.json(data).status(200);
+                    res.json(data);
                 })
                 .catch((err) => {
-                    res.json("Cannot add patient due to :- ", err).status(404);
+                    res.json("Cannot add patient due to :- ", err);
                 })
         }
     } catch (err) {
@@ -132,9 +132,9 @@ app.put("/edit-patient-details", async (req, res) => {
             { $set: updateFields },
             { new: true }
         ).then((data) => {
-            res.json(data).status(200);
+            res.json(data);
         }).catch((error) => {
-            res.json("Cannot edit the patient details due to:-", error).status(404);
+            res.json("Cannot edit the patient details due to:-", error);
         })
     } catch (err) {
         console.log(err);
@@ -145,9 +145,9 @@ app.delete("/remove-patient", async (req, res) => {
     const {email} = req.body;
     try {
         await patientSchemaModel.findOneAndDelete({ email: email }).then((data) => {
-            res.json(data).status(200);
+            res.json(data);
         }).catch((error) => {
-            res.json("Cannot remove the patient due to:-", error).status(404);
+            res.json("Cannot remove the patient due to:-", error);
         })
     } catch (error) {
         console.log(error);
