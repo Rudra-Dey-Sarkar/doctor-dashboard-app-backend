@@ -49,7 +49,7 @@ app.post("/register", async (req, res) => {
         } else {
             await userSchemaModel.insertMany([data])
                 .then((data) => {
-                    res.json(data);
+                    res.json(data).status(200);
                 })
                 .catch((err) => {
                     res.json(err);
@@ -66,7 +66,7 @@ app.post("/login", async (req, res) => {
         await userSchemaModel.find({ email: email })
             .then((data) => {
                 if (data[0].password === password) {
-                    res.json(data);
+                    res.json(data).status(200);
                 } else {
                     res.json("Use Same Password");
                 }
@@ -83,7 +83,7 @@ app.post("/login", async (req, res) => {
 app.get("/patient", async (req, res) => {
     try {
         await patientSchemaModel.find().then((data) => {
-            res.json(data);
+            res.json(data).status(200);
         }).catch((err) => {
             res.json("No Patient Found Due To:-", err);
         })
@@ -111,7 +111,7 @@ app.post("/add-patient", async (req, res) => {
         } else {
             await patientSchemaModel.insertMany([data])
                 .then((data) => {
-                    res.json(data);
+                    res.json(data).status(200);
                 })
                 .catch((err) => {
                     res.json("Cannot add patient due to :- ", err);
@@ -131,7 +131,7 @@ app.put("/edit-patient-details", async (req, res) => {
             { $set: updateFields },
             { new: true }
         ).then((data) => {
-            res.json(data);
+            res.json(data).status(200);
         }).catch((error) => {
             res.json("Cannot edit the patient details due to:-", error);
         })
@@ -144,7 +144,7 @@ app.delete("/remove-patient", async (req, res) => {
     const {email} = req.body;
     try {
         await patientSchemaModel.findOneAndDelete({ email: email }).then((data) => {
-            res.json(data);
+            res.json(data).status(200);
         }).catch((error) => {
             res.json("Cannot remove the patient due to:-", error);
         })
