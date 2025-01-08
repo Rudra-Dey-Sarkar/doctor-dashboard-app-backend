@@ -1,11 +1,17 @@
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
+import ConnectDB from "./src/config/db";
+
+const port = process.env.PORT
+ConnectDB();
 
 const corsOptions = {
     origin: '*',
     optionsSuccessStatus: 200
   }
 
+  
 const app = express();
 app.use(cors(corsOptions));
 app.use(express.json());
@@ -20,5 +26,5 @@ app.get("/", (req, res)=>{
 })
 
 app.listen(5000, ()=>{
-    console.log("App Listening in the port 5000")
+    console.log("App Listening in the port", port);
 })
