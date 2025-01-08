@@ -1,7 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
-import ConnectDB from "./src/config/db";
+const ConnectDB = require("./src/config/db");
 
 const port = process.env.PORT
 ConnectDB();
