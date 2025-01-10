@@ -2,9 +2,9 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const ConnectDB = require("./src/config/db");
-
 const userSchemaModel = require("./src/model/user");
 const patientSchemaModel = require("./src/model/patient");
+const paymentSchemaModel = require("./src/model/payment");
 
 const port = process.env.PORT
 ConnectDB();
@@ -154,6 +154,49 @@ app.delete("/remove-patient", async (req, res) => {
         console.log(error);
     }
 })
+
+
+//view payment 
+app.post("/payment", async (req, res) => {
+    const {email} = req.body;
+    try {
+        await paymentSchemaModel.find({email:email}).then((data) => {
+            res.status(200).json(data);
+        }).catch((err) => {
+            res.status(404).json("No Payments Found Due To:-", err);
+        })
+    } catch (err) {
+        console.log(err);
+    }
+});
+//add payment
+app.post("/add-payment", async (req, res) => {
+    const { email, amount, id, date, status } = req.body;
+    const data = {
+        email: email,
+        amount: amount,
+        id: id,
+        date: date,
+        status: status,
+    }
+
+    try {
+        const response = await paymentSchemaModel.find({ id: id });
+        if (response?.length > 0) {
+            res.status(404).json("Payment Already Exist");
+        } else {
+            await paymentSchemaModel.insertMany([data])
+                .then((data) => {
+                    res.status(200).json(data);
+                })
+                .catch((err) => {
+                    res.status(404).json("Cannot add payments due to :- ", err);
+                })
+            }
+    } catch (err) {
+        console.log(err);
+    }
+});
 
 app.listen(5000, () => {
     console.log("App Listening in the port", port);
